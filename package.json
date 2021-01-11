@@ -24,11 +24,14 @@
   },
   "keywords": [
     "area",
+    "garea",
+    "garea.js",
     "crop",
     "image",
     "select",
     "react-area",
-    "react-crop"
+    "react-crop",
+    "react-garea"
   ],
   "authors": [
     "Giovane Santos <giovanesantos1999@gmail.com>"
