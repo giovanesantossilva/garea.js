@@ -1,0 +1,49 @@
+{
+  "name": "garea.js",
+  "title": "Garea.js",
+  "version": "0.1.0",
+  "description": "A simple selection of area in JavaScript",
+  "main": "./dist/garea.common.js",
+  "module": "./dist/garea.esm.js",
+  "browser": "./dist/garea.min.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest",
+    "build": "rollup -c",
+    "compress": "uglifyjs dist/garea.js -o dist/garea.min.js -c -m --comments /^!/"
+  },
+  "engines": {
+    "node": ">=10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GIovaneSantosSilva/garea.js.git"
+  },
+  "keywords": [
+    "area",
+    "crop",
+    "image",
+    "select",
+    "react-area",
+    "react-crop"
+  ],
+  "authors": [
+    "Giovane Santos <giovanesantos1999@gmail.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/GIovaneSantosSilva/garea.js/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@rollup/plugin-babel": "^5.2.2",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "jest": "^26.6.3",
+    "jest-canvas-mock": "^2.3.0",
+    "rollup": "^2.36.1",
+    "uglify-js": "^3.12.4"
+  }
+}
