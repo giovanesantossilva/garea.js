@@ -2,6 +2,11 @@
 
 > A simple selection of area in JavaScript
 
+![Version](https://img.shields.io/github/package-json/v/GIovaneSantosSilva/garea.js)
+![Project Size](https://img.shields.io/github/size/GIovaneSantosSilva/garea.js/dist/garea.js) 
+![Dependencies](https://img.shields.io/david/GIovaneSantosSilva/garea.js) 
+![Licence](https://img.shields.io/github/license/GIovaneSantosSilva/garea.js)
+
 ## Table of contents
 
 - [Main](#main)
