@@ -23,6 +23,10 @@ class Garea {
         this._points = { p1: points[0], p2: points[1], p3: points[2], p4: points[3] };
     }
 
+    get points() {
+        return Object.values(this._points);
+    }
+
     setColor(key, value) {
         if(this._colors.hasOwnProperty(key)) {
             this._colors[key] = value;
@@ -38,6 +42,7 @@ class Garea {
     reset() {
         this._points = null;
         this.draw();
+        this._callback.onchange(this.points);
     }
 
     _validatePoints() {
@@ -109,7 +114,7 @@ class Garea {
     _onMouseUp() {
         this._canvas.onmouseup = event => {
             if(Object.values(this._drags).indexOf(true) !== -1) {
-                this._callback.onchange(Object.values(this._points));
+                this._callback.onchange(this.points);
             }
             this._canvas.style.cursor = 'default';
             this._drags = { p1: false, p2: false, p3: false, p4: false };

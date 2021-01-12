@@ -1,8 +1,7 @@
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define(['exports'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.garea = {}));
-}(this, (function (exports) { 'use strict';
+(function (factory) {
+    typeof define === 'function' && define.amd ? define(factory) :
+    factory();
+}((function () { 'use strict';
 
     class Garea {
 
@@ -29,6 +28,10 @@
             this._points = { p1: points[0], p2: points[1], p3: points[2], p4: points[3] };
         }
 
+        get points() {
+            return Object.values(this._points);
+        }
+
         setColor(key, value) {
             if(this._colors.hasOwnProperty(key)) {
                 this._colors[key] = value;
@@ -44,6 +47,7 @@
         reset() {
             this._points = null;
             this.draw();
+            this._callback.onchange(this.points);
         }
 
         _validatePoints() {
@@ -115,7 +119,7 @@
         _onMouseUp() {
             this._canvas.onmouseup = event => {
                 if(Object.values(this._drags).indexOf(true) !== -1) {
-                    this._callback.onchange(Object.values(this._points));
+                    this._callback.onchange(this.points);
                 }
                 this._canvas.style.cursor = 'default';
                 this._drags = { p1: false, p2: false, p3: false, p4: false };
@@ -137,7 +141,5 @@
     }
 
     exports.Garea = Garea;
-
-    Object.defineProperty(exports, '__esModule', { value: true });
 
 })));

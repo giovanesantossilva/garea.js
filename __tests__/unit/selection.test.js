@@ -56,8 +56,27 @@ describe("Selection area", () => {
         area.points = received;
         area.draw();
         area.reset()
-        const points = Object.values(area._points);
-        expect(points).not.toEqual(received);
+        expect(area.points).not.toEqual(received);
+    });
+
+    it('should set and get points of area selected.', () => {
+        const received = [{x: 20, y: 20}, {x: 181, y: 21}, {x: 187, y: 137}, {x: 28, y: 140}];
+        const area = new Garea('crop');
+        area.points = received;
+        expect(area.points).toEqual(received);
+    });
+
+    it('should invoke onchange callback when reset.', () => {
+        let points = [];
+        const received = [{x: 20, y: 20}, {x: 181, y: 21}, {x: 187, y: 137}, {x: 28, y: 140}];
+        const area = new Garea('crop');
+        area.points = received;
+        area.draw();
+        area.onListener('onchange', event => {
+            points = event;
+        });
+        area.reset();
+        expect(points).toEqual(area.points);
     });
 
 });
