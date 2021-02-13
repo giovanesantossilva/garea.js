@@ -4,12 +4,19 @@
 }((function () { 'use strict';
 
     class Garea {
-
-        constructor(idCanvas, config = { r: 5, m: 30 }) {
+        /**
+         *
+         * @param {String} idCanvas
+         * @param {Object} config
+         */
+        constructor(idCanvas, config = { }) {
+            if(typeof idCanvas !== 'string') {
+                throw Error('Type invalid of identifier canvas');
+            }
             this._canvas = document.getElementById(idCanvas);
+            this._config = this._validateConfig(config);
             this._context = this._canvas.getContext('2d');
             this._points = null;
-            this._config = config;
             this._drags = { p1: false, p2: false, p3: false, p4: false };
             this._colors = { area: 'rgba(47, 175, 255, 0.58)', points: 'rgb(47, 177, 255)' };
             this._resolution = { w: this._canvas.offsetWidth, h: this._canvas.offsetHeight };
@@ -17,7 +24,7 @@
         }
 
         set config(config) {
-            this._config = config;
+            this._config = this._validateConfig(config);
         }
 
         set resolution(resolution) {
@@ -48,6 +55,19 @@
             this._points = null;
             this.draw();
             this._callback.onchange(this.points);
+        }
+
+        _validateConfig(config) {
+            if(typeof config !== 'object') {
+                throw Error('Type invalid of config area');
+            }
+            if(!config.hasOwnProperty('r')) {
+                config.r = 5;
+            }
+            if(!config.hasOwnProperty('m')) {
+                config.m = 30;
+            }
+            return config;
         }
 
         _validatePoints() {

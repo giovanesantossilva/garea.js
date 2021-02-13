@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GArea.js</title>
+    <style type="text/css">
+        #image {
+            width: 600px;
+            height: 400px;
+            user-select: none;
+            position: absolute;
+        }
+        #crop {
+            z-index: 9;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div style="position: relative">
+        <img id="image" src="image.jpg" alt="image">
+        <canvas id="crop" width="600" height="400"></canvas>
+    </div>
+    <script src="../src/index.js"></script>
+    <script>
+        window.onload = () => {
+            const area0 = new Garea('crop', { r: 7, m: 30 });
+            area0.draw();
+            area0.onListener('onchange', points => {
+                console.log(points);
+            });
+        }
+    </script>
+</body>
+</html>

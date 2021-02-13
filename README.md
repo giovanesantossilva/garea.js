@@ -54,21 +54,22 @@ new Garea(idCanvas [, config]);
 #### Example
 
 ```html
-<div>
-  <img id="image" width="400" height="600" src="picture.jpg">
-  <canvas id="crop" width="400" height="600"></canvas>
+<div style="position: relative">
+    <img id="image" src="image.jpg" alt="image">
+    <canvas id="crop" width="600" height="400"></canvas>
 </div>
 ```
 
 ```css
 #image {
-  user-select: 'none';
-  position: 'absolute';
+    width: 600px;
+    height: 400px;
+    user-select: none;
+    position: absolute;
 }
-
 #crop {
-  z-index: '9';
-  position: 'absolute';
+    z-index: 9;
+    position: absolute;
 }
 ```
 
