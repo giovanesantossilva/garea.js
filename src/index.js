@@ -1,21 +1,27 @@
 class Garea {
-    /**
-     *
-     * @param {String} idCanvas
-     * @param {Object} config
-     */
+
     constructor(idCanvas, config = { }) {
-        if(typeof idCanvas !== 'string') {
+        if(idCanvas instanceof String) {
             throw Error('Type invalid of identifier canvas');
         }
         this._canvas = document.getElementById(idCanvas);
         this._config = this._validateConfig(config);
         this._context = this._canvas.getContext('2d');
         this._points = null;
-        this._drags = { p1: false, p2: false, p3: false, p4: false };
-        this._colors = { area: 'rgba(47, 175, 255, 0.58)', points: 'rgb(47, 177, 255)' };
-        this._resolution = { w: this._canvas.offsetWidth, h: this._canvas.offsetHeight };
-        this._callback = { onmousedown: () => {}, onmouseup: () => {}, onchange: () => {} };
+        this._drags = null;
+        this._colors = {
+            points: 'rgb(47, 177, 255)',
+            area: 'rgba(47, 175, 255, 0.5)'
+        };
+        this._resolution = {
+            w: this._canvas.offsetWidth,
+            h: this._canvas.offsetHeight
+        };
+        this._callback = {
+            onchange: () => {},
+            onmouseup: () => {},
+            onmousedown: () => {}
+        };
     }
 
     set config(config) {
@@ -27,7 +33,12 @@ class Garea {
     }
 
     set points(points) {
-        this._points = { p1: points[0], p2: points[1], p3: points[2], p4: points[3] };
+        this._drags = {};
+        this._points = {};
+        points.forEach((point, index) => {
+            this._drags[`p${index + 1}`] = false;
+            this._points[`p${index + 1}`] = point;
+        });
     }
 
     get points() {
@@ -79,10 +90,11 @@ class Garea {
         this._clear();
         this._validatePoints();
         this._createArea();
-        this._createCircle(this._points.p1);
-        this._createCircle(this._points.p2);
-        this._createCircle(this._points.p3);
-        this._createCircle(this._points.p4);
+        for (const point in this._points) {
+            if(this._points.hasOwnProperty(point)) {
+                this._createCircle(this._points[point]);
+            }
+        }
         this._onMouseDown();
         this._onMouseUp();
         this._onMouseMove();
@@ -93,9 +105,9 @@ class Garea {
     }
 
     _createCircle(point) {
+        this._context.fillStyle = this._colors.points;
         this._context.beginPath();
         this._context.arc(point.x, point.y, this._config.r, 0, Math.PI * 2, true);
-        this._context.fillStyle = this._colors.points;
         this._context.closePath();
         this._context.fill();
     }
@@ -104,10 +116,11 @@ class Garea {
         this._context.fillStyle = this._colors.area;
         this._context.beginPath();
         this._context.moveTo(this._points.p1.x, this._points.p1.y);
-        this._context.lineTo(this._points.p2.x, this._points.p2.y);
-        this._context.lineTo(this._points.p3.x, this._points.p3.y);
-        this._context.lineTo(this._points.p4.x, this._points.p4.y);
-        this._context.lineTo(this._points.p1.x, this._points.p1.y);
+        for (const point in this._points) {
+            if(this._points.hasOwnProperty(point)) {
+                this._context.lineTo(this._points[point].x, this._points[point].y);
+            }
+        }
         this._context.closePath();
         this._context.fill();
     }
@@ -145,9 +158,11 @@ class Garea {
     _onMouseMove() {
         this._canvas.onmousemove = (event) => {
             for (let drag in this._drags) {
-                if(this._drags[drag]) {
-                    this._points[drag] =  { x: event.offsetX, y: event.offsetY };
-                    this.draw();
+                if(this._drags.hasOwnProperty(drag)) {
+                    if(this._drags[drag]) {
+                        this._points[drag] =  { x: event.offsetX, y: event.offsetY };
+                        this.draw();
+                    }
                 }
             }
         }

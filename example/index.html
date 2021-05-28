@@ -30,8 +30,14 @@
             const area0 = new Garea('crop', { r: 7, m: 30 });
             area0.draw();
             area0.onListener('onchange', points => {
-                console.log(points);
+                console.log('onchange', points);
             });
+            area0.onListener('onmouseup', points => {
+                console.log('onmouseup', points);
+            })
+            area0.onListener('onmousedown', points => {
+                console.log('onmousedown', points);
+            })
         }
     </script>
 </body>
