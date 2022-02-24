@@ -1,31 +1,37 @@
+import { terser } from 'rollup-plugin-terser';
 import { babel } from '@rollup/plugin-babel';
+import commonjs from "@rollup/plugin-commonjs";
 import resolve from '@rollup/plugin-node-resolve';
 
-export default {
+const packageJson = require('./package.json');
+
+module.exports = {
     input: 'src/index.js',
     output: [
         {
-            name: 'garea',
-            file: 'dist/garea.js',
+            name: packageJson.name,
+            file: packageJson.browser,
             format: 'umd'
         },
         {
-            name: 'garea',
-            file: 'dist/garea.common.js',
+            name: packageJson.name,
+            file: packageJson.main,
             format: 'cjs',
             exports: 'auto'
         },
         {
-            name: 'garea',
-            file: 'dist/garea.esm.js',
+            name: packageJson.name,
+            file: packageJson.module,
             format: 'esm'
         }
     ],
-    plugin: [
+    plugins: [
         resolve(),
         babel({
             babelHelpers: 'bundled',
             exclude: ["node_modules/**"],
-        })
+        }),
+        commonjs(),
+        terser()
     ]
 }

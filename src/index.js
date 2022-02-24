@@ -2,7 +2,7 @@ class Garea {
 
     constructor(idCanvas, config = { }) {
         if(idCanvas instanceof String) {
-            throw Error('Type invalid of identifier canvas');
+            throw new Error('Type invalid of identifier canvas');
         }
         this._canvas = document.getElementById(idCanvas);
         this._config = this._validateConfig(config);
@@ -170,4 +170,4 @@ class Garea {
 
 }
 
-exports.Garea = Garea;
+module.exports = Garea;
