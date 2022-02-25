@@ -12,14 +12,16 @@ class Core {
             height: this._canvas.offsetHeight
         };
         this._draws = new Map();
+        this._mount = [];
     }
 
     addDraw(name, config) {
-        const draw = new Draw(this._canvas, this._context);
+        const draw = new Draw(name, this._canvas, this._context);
         draw.setConfig(config);
-        draw.setRecreate(this.create.bind(this));
         draw.setResolution(this._resolution);
+        draw._setRecreate(this.create.bind(this));
         this._draws.set(name, draw);
+        this._mount.push(draw);
     }
 
     getDraw(name) {
@@ -28,13 +30,17 @@ class Core {
 
     setEdit(name) {
         const draw = this._draws.get(name);
+        const mount = this._mount.filter(mount =>
+            mount.getName() !== draw.getName());
+        mount.push(draw);
+        this._mount = mount;
         draw._createListeners();
         this.create();
     }
 
     create() {
         this._clear();
-        this._draws.forEach(draw => {
+        this._mount.forEach(draw => {
             draw._create();
         });
     }

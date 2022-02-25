@@ -34,6 +34,7 @@
             crop.addDraw('area', {});
 
             const line = crop.getDraw('line');
+            line.setPoints([{ x: 30, y: 30 }, { x: 35, y: 70 }]);
             line.setColor('points', 'rgb(218, 47, 22)')
                 .setColor('stroke', 'rgb(218, 47, 22)')
                 .setColor('area', 'rgb(218, 47, 202, 0.5)');
@@ -46,8 +47,13 @@
             area.onListener('onchange', event => {
                 console.log('area onchange', event);
             });
-
-            crop.setEdit('line');
+            area.onListener('onmouseup', event => {
+                console.log('area onmouseup', event);
+            });
+            area.onListener('onmousedown', event => {
+                console.log('area onmousedown', event);
+            });
+            crop.setEdit('area');
             crop.create();
         }
     </script>

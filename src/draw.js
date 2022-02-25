@@ -1,6 +1,7 @@
 class Draw {
 
-    constructor(canvas, context) {
+    constructor(name, canvas, context) {
+        this._name = name;
         this._canvas = canvas;
         this._context = context;
         this._config = null;
@@ -20,8 +21,22 @@ class Draw {
         this._recreate = () => {};
     }
 
-    getConfig() {
-        return this._config;
+    getName() {
+        return this._name;
+    }
+
+    setColor(key, value) {
+        if(this._colors.hasOwnProperty(key)) {
+            this._colors[key] = value;
+        }
+        return this;
+    }
+
+    onListener(event, callback) {
+        if(this._callback.hasOwnProperty(event)) {
+            this._callback[event] = callback;
+        }
+        return this;
     }
 
     setConfig(config) {
@@ -41,30 +56,12 @@ class Draw {
         });
     }
 
-    getResolution() {
-        return this._resolution;
-    }
-
     setResolution(resolution) {
         this._resolution = this._validateResolution(resolution);
     }
 
-    setColor(key, value) {
-        if(this._colors.hasOwnProperty(key)) {
-            this._colors[key] = value;
-        }
-        return this;
-    }
-
-    setRecreate(recreate) {
+    _setRecreate(recreate) {
         this._recreate = recreate;
-    }
-
-    onListener(event, callback) {
-        if(this._callback.hasOwnProperty(event)) {
-            this._callback[event] = callback;
-        }
-        return this;
     }
 
     _validateConfig(config) {
@@ -149,59 +146,51 @@ class Draw {
     }
 
     _createListeners() {
-        this._onMouseUp();
-        this._onMouseDown();
-        this._onMouseMove();
+        this._canvas.onmouseup = this._onMouseUp.bind(this);
+        this._canvas.onmousedown = this._onMouseDown.bind(this);
+        this._canvas.onmousemove = this._onMouseMove.bind(this);
     }
 
-    _onMouseDown() {
-        this._canvas.onmousedown = (event) => {
-            for(let point in this._points) {
-                if(this._points.hasOwnProperty(point)) {
-                    if(
-                        (event.offsetX >= this._points[point].x - (this._config.radius + 3)) &&
-                        (event.offsetX <= this._points[point].x + (this._config.radius + 3)) &&
-                        (event.offsetY >= this._points[point].y - (this._config.radius + 3)) &&
-                        (event.offsetY <= this._points[point].y + (this._config.radius + 3))
-                    ) {
-                        this._drags[point] = true;
-                        this._canvas.style.cursor = 'crosshair';
-                    }
+    _onMouseDown(event) {
+        for(let point in this._points) {
+            if(this._points.hasOwnProperty(point)) {
+                if(
+                    (event.offsetX >= this._points[point].x - (this._config.radius + 3)) &&
+                    (event.offsetX <= this._points[point].x + (this._config.radius + 3)) &&
+                    (event.offsetY >= this._points[point].y - (this._config.radius + 3)) &&
+                    (event.offsetY <= this._points[point].y + (this._config.radius + 3))
+                ) {
+                    this._drags[point] = true;
+                    this._canvas.style.cursor = 'crosshair';
                 }
             }
-            this._callback.onmousedown({ x: event.offsetX, y: event.offsetY });
         }
+        this._callback.onmousedown({ x: event.offsetX, y: event.offsetY });
     }
 
-    _onMouseUp() {
-        this._canvas.onmouseup = event => {
-            if(Object.values(this._drags).indexOf(true) !== -1) {
-                this._callback.onchange(this.getPoints());
-            }
-            this._canvas.style.cursor = 'default';
-            this._drags = {};
-            for (const point in this._points) {
-                if(this._points.hasOwnProperty(point)) {
-                    this._drags[point] = false;
-                }
-            }
-            this._callback.onmouseup({ x: event.offsetX, y: event.offsetY });
+    _onMouseUp(event) {
+        if(Object.values(this._drags).indexOf(true) !== -1) {
+            this._callback.onchange(this.getPoints());
         }
+        this._canvas.style.cursor = 'default';
+        this._drags = {};
+        for (const point in this._points) {
+            if(this._points.hasOwnProperty(point)) {
+                this._drags[point] = false;
+            }
+        }
+        this._callback.onmouseup({ x: event.offsetX, y: event.offsetY });
     }
 
-    _onMouseMove() {
-        this._canvas.onmousemove = (event) => {
-            for (let drag in this._drags) {
-                if(this._drags.hasOwnProperty(drag)) {
-                    if(this._drags[drag]) {
-                        this._points[drag] =  { x: event.offsetX, y: event.offsetY };
-                        this._recreate();
-                    }
+    _onMouseMove(event) {
+        for (let drag in this._drags) {
+            if(this._drags.hasOwnProperty(drag)) {
+                if(this._drags[drag]) {
+                    this._points[drag] =  { x: event.offsetX, y: event.offsetY };
+                    this._recreate();
                 }
             }
         }
     }
 
 }
-
-module.exports = Draw;
