@@ -1,4 +1,4 @@
-const { Garea } = require('../../src');
+const Garea = require('../../src');
 
 describe("Selection area", () => {
 
@@ -9,8 +9,7 @@ describe("Selection area", () => {
     });
 
     it("should garea class instanced.", () => {
-        const area = new Garea('crop');
-        expect(area).toBeDefined();
+        expect(new Garea('crop')).toBeDefined();
     });
 
     it("should set configuration is correctly.", () => {

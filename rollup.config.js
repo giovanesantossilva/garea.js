@@ -26,7 +26,11 @@ module.exports = {
         }
     ],
     plugins: [
-        resolve(),
+        resolve({
+            jsnext: true,
+            main: true,
+            browser: true,
+        }),
         babel({
             babelHelpers: 'bundled',
             exclude: ["node_modules/**"],

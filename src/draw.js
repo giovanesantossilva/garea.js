@@ -1,51 +1,38 @@
-class Garea {
+class Draw {
 
-    constructor(idCanvas, config = { }) {
-        if(typeof idCanvas !== 'string') {
-            throw new Error('Type invalid of identifier canvas');
-        }
-        this._canvas = document.getElementById(idCanvas);
-        this._context = this._canvas.getContext('2d');
-        this._config = this._validateConfig(config);
-        this._points = null;
+    constructor(canvas, context) {
+        this._canvas = canvas;
+        this._context = context;
+        this._config = null;
         this._drags = null;
+        this._points = null;
+        this._resolution = null;
         this._colors = {
             points: 'rgb(47, 177, 255)',
             stroke: 'rgb(47, 177, 255)',
             area: 'rgba(47, 175, 255, 0.5)'
-        };
-        this._resolution = {
-            width: this._canvas.offsetWidth,
-            height: this._canvas.offsetHeight
         };
         this._callback = {
             onchange: () => {},
             onmouseup: () => {},
             onmousedown: () => {}
         };
+        this._recreate = () => {};
     }
 
-    get config() {
+    getConfig() {
         return this._config;
     }
 
-    set config(config) {
+    setConfig(config) {
         this._config = this._validateConfig(config);
     }
 
-    get resolution() {
-        return this._resolution;
-    }
-
-    set resolution(resolution) {
-        this._resolution = resolution;
-    }
-
-    get points() {
+    getPoints() {
         return Object.values(this._points);
     }
 
-    set points(points) {
+    setPoints(points) {
         this._drags = {};
         this._points = {};
         points.forEach((point, index) => {
@@ -54,22 +41,30 @@ class Garea {
         });
     }
 
+    getResolution() {
+        return this._resolution;
+    }
+
+    setResolution(resolution) {
+        this._resolution = this._validateResolution(resolution);
+    }
+
     setColor(key, value) {
         if(this._colors.hasOwnProperty(key)) {
             this._colors[key] = value;
         }
+        return this;
+    }
+
+    setRecreate(recreate) {
+        this._recreate = recreate;
     }
 
     onListener(event, callback) {
         if(this._callback.hasOwnProperty(event)) {
             this._callback[event] = callback;
         }
-    }
-
-    reset() {
-        this._points = null;
-        this.draw();
-        this._callback.onchange(this.points);
+        return this;
     }
 
     _validateConfig(config) {
@@ -88,13 +83,25 @@ class Garea {
         if(!config.hasOwnProperty('stroke')) {
             config.stroke = 4;
         }
-        console.log(config);
         return config;
+    }
+
+    _validateResolution(resolution) {
+        if(typeof resolution !== 'object') {
+            throw Error('Type invalid of config area');
+        }
+        if(!resolution.hasOwnProperty('width')) {
+            resolution.width = window.screen.width;
+        }
+        if(!resolution.hasOwnProperty('height')) {
+            resolution.height = window.screen.height;
+        }
+        return resolution;
     }
 
     _validatePoints() {
         if(this._points) return;
-        this.points = [
+        this.setPoints([
             { x: this._config.margin, y: this._config.margin },
             { x: (this._resolution.width - this._config.margin) / 2, y: this._config.margin },
             { x: this._resolution.width - this._config.margin, y: this._config.margin },
@@ -103,11 +110,10 @@ class Garea {
             { x: (this._resolution.width - this._config.margin) / 2, y: this._resolution.height - this._config.margin },
             { x: this._config.margin, y: this._resolution.height - this._config.margin },
             { x: this._config.margin, y: (this._resolution.height - this._config.margin) / 2 }
-        ];
+        ]);
     }
 
-    draw() {
-        this._clear();
+    _create() {
         this._validatePoints();
         this._createArea();
         for (const point in this._points) {
@@ -115,21 +121,6 @@ class Garea {
                 this._createCircle(this._points[point]);
             }
         }
-        this._onMouseDown();
-        this._onMouseUp();
-        this._onMouseMove();
-    }
-
-    _clear() {
-        this._context.clearRect(0, 0, this._resolution.width, this._resolution.height);
-    }
-
-    _createCircle(point) {
-        this._context.fillStyle = this._colors.points;
-        this._context.beginPath();
-        this._context.arc(point.x, point.y, this._config.radius, 0, Math.PI * 2, true);
-        this._context.closePath();
-        this._context.fill();
     }
 
     _createArea() {
@@ -147,6 +138,20 @@ class Garea {
         this._context.stroke();
         this._context.closePath();
         this._context.fill();
+    }
+
+    _createCircle(point) {
+        this._context.fillStyle = this._colors.points;
+        this._context.beginPath();
+        this._context.arc(point.x, point.y, this._config.radius, 0, Math.PI * 2, true);
+        this._context.closePath();
+        this._context.fill();
+    }
+
+    _createListeners() {
+        this._onMouseUp();
+        this._onMouseDown();
+        this._onMouseMove();
     }
 
     _onMouseDown() {
@@ -171,7 +176,7 @@ class Garea {
     _onMouseUp() {
         this._canvas.onmouseup = event => {
             if(Object.values(this._drags).indexOf(true) !== -1) {
-                this._callback.onchange(this.points);
+                this._callback.onchange(this.getPoints());
             }
             this._canvas.style.cursor = 'default';
             this._drags = {};
@@ -190,7 +195,7 @@ class Garea {
                 if(this._drags.hasOwnProperty(drag)) {
                     if(this._drags[drag]) {
                         this._points[drag] =  { x: event.offsetX, y: event.offsetY };
-                        this.draw();
+                        this._recreate();
                     }
                 }
             }
@@ -199,4 +204,4 @@ class Garea {
 
 }
 
-module.exports = Garea;
+module.exports = Draw;

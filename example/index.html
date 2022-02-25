@@ -24,20 +24,31 @@
         <img id="image" src="image.jpg" alt="image">
         <canvas id="crop" width="600" height="400"></canvas>
     </div>
-    <script src="../src/index.js"></script>
+    <script src="../src/draw.js"></script>
+    <script src="../src/core.js"></script>
     <script>
         window.onload = () => {
-            const area0 = new Garea('crop', { r: 7, m: 30 });
-            area0.draw();
-            area0.onListener('onchange', points => {
-                console.log('onchange', points);
+            const crop = new Core('crop');
+
+            crop.addDraw('line', {});
+            crop.addDraw('area', {});
+
+            const line = crop.getDraw('line');
+            line.setColor('points', 'rgb(218, 47, 22)')
+                .setColor('stroke', 'rgb(218, 47, 22)')
+                .setColor('area', 'rgb(218, 47, 202, 0.5)');
+
+            line.onListener('onchange', event => {
+                console.log('line onchange', event);
             });
-            area0.onListener('onmouseup', points => {
-                console.log('onmouseup', points);
-            })
-            area0.onListener('onmousedown', points => {
-                console.log('onmousedown', points);
-            })
+
+            const area = crop.getDraw('area');
+            area.onListener('onchange', event => {
+                console.log('area onchange', event);
+            });
+
+            crop.setEdit('line');
+            crop.create();
         }
     </script>
 </body>
