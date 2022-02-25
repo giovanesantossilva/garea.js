@@ -1,15 +1,17 @@
 {
     "name": "garea.js",
     "title": "Garea.js",
-    "version": "0.2.0-rc0",
+    "version": "0.2.0-rc1",
     "description": "A simple selection of area in JavaScript",
     "main": "./dist/garea.common.js",
     "module": "./dist/garea.esm.js",
     "browser": "./dist/garea.min.js",
+    "types": "./src/index.d.ts",
     "files": [
         "dist",
         "LICENSE",
-        "README.md"
+        "README.md",
+        "src/index.d.ts"
     ],
     "scripts": {
         "test": "jest",

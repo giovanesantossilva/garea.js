@@ -41,6 +41,7 @@ export class Draw {
 
     setConfig(config) {
         this._config = this._validateConfig(config);
+        return this;
     }
 
     getPoints() {
@@ -54,10 +55,12 @@ export class Draw {
             this._drags[`p${index + 1}`] = false;
             this._points[`p${index + 1}`] = point;
         });
+        return this;
     }
 
     setResolution(resolution) {
         this._resolution = this._validateResolution(resolution);
+        return this;
     }
 
     _setRecreate(recreate) {
