@@ -24,8 +24,7 @@
         <img id="image" src="image.jpg" alt="image">
         <canvas id="crop" width="600" height="400"></canvas>
     </div>
-    <script src="../src/draw.js"></script>
-    <script src="../src/core.js"></script>
+    <script src="../dist/garea.min.js"></script>
     <script>
         window.onload = () => {
             const crop = new Core('crop');
@@ -38,7 +37,6 @@
             line.setColor('points', 'rgb(218, 47, 22)')
                 .setColor('stroke', 'rgb(218, 47, 22)')
                 .setColor('area', 'rgb(218, 47, 202, 0.5)');
-
             line.onListener('onchange', event => {
                 console.log('line onchange', event);
             });
@@ -53,6 +51,7 @@
             area.onListener('onmousedown', event => {
                 console.log('area onmousedown', event);
             });
+
             crop.setEdit('area');
             crop.create();
         }

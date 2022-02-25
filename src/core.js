@@ -1,5 +1,6 @@
+import { Draw } from "./draw";
 
-class Core {
+export class Core {
 
     constructor(idCanvas) {
         if(typeof idCanvas !== 'string') {

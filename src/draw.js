@@ -1,4 +1,4 @@
-class Draw {
+export class Draw {
 
     constructor(name, canvas, context) {
         this._name = name;

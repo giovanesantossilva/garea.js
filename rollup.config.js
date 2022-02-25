@@ -6,7 +6,7 @@ import resolve from '@rollup/plugin-node-resolve';
 const packageJson = require('./package.json');
 
 module.exports = {
-    input: 'src/index.js',
+    input: 'src/core.js',
     output: [
         {
             name: packageJson.name,
