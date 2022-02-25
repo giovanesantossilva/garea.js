@@ -110,6 +110,12 @@ export class Draw {
         ]);
     }
 
+    reset() {
+        this._points = null;
+        this._recreate();
+        this._callback.onchange(this.getPoints());
+    }
+
     _create() {
         this._validatePoints();
         this._createArea();
