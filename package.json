@@ -1,7 +1,7 @@
 {
     "name": "garea.js",
     "title": "Garea.js",
-    "version": "0.2.0-rc5",
+    "version": "0.2.1",
     "description": "A simple selection of area in JavaScript",
     "main": "./dist/garea.common.js",
     "module": "./dist/garea.esm.js",
