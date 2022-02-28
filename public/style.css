@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body, #root {
+    width: 100%;
+    height: 100%;
+}
+
+#image {
+    width: 600px;
+    height: 400px;
+    user-select: none;
+    position: absolute;
+}
+
+#crop {
+    z-index: 9;
+    position: absolute;
+}
