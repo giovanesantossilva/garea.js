@@ -1,4 +1,4 @@
-# Garea.js
+<img src="./logo.png" width="200" height="auto">
 
 > A simple selection of area in JavaScript
 
