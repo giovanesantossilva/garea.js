@@ -3,7 +3,7 @@ import { Draw } from "./draw";
 export class Core {
 
     constructor(idCanvas) {
-        if(typeof idCanvas !== 'string') {
+        if (typeof idCanvas !== 'string') {
             throw new Error('Type invalid of identifier canvas');
         }
         this._canvas = document.getElementById(idCanvas);
@@ -27,6 +27,11 @@ export class Core {
 
     getDraw(name) {
         return this._draws.get(name);
+    }
+
+    removeDraw(name) {
+        this._draws.delete(name);
+        this.create();
     }
 
     setEdit(name) {

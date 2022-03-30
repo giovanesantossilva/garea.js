@@ -48,7 +48,7 @@ In browser:
 #### Syntax
 
 ```js
-new Garea(idCanvas [, config]);
+new Core(idCanvas [, config]);
 ```
 
 #### Example
@@ -151,6 +151,19 @@ Get draw by name.
 const crop = new Core('crop');
 crop.addDraw('area', {});
 const area = crop.getDraw('area');
+````
+
+### removeDraw(name)
+
+Remove draw by name.
+
+- **name**
+    - Type: `String`
+
+````js
+const crop = new Core('crop');
+crop.addDraw('area', {});
+crop.removeDraw('area');
 ````
 
 ### setEdit(name)
