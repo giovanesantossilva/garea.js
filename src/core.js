@@ -30,7 +30,11 @@ export class Core {
     }
 
     removeDraw(name) {
+        const draw = this._draws.get(name);
         this._draws.delete(name);
+        const mount = this._mount.filter(mount =>
+            mount.getName() !== draw.getName());
+        this._mount = mount;
         this.create();
     }
 

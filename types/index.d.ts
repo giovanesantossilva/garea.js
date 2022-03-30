@@ -29,6 +29,7 @@ declare class Draw {
 export class Core {
     constructor(idCanvas: string);
     addDraw(name: string, config: DrawConfigType): void;
+    removeDraw(name: string): void;
     getDraw(name: string): Draw;
     setEdit(name: string): void;
     create(): void;
