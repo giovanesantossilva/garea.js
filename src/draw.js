@@ -39,6 +39,14 @@ export class Draw {
         }
     }
 
+    get config() {
+        return this.#config;
+    }
+
+    get colors() {
+        return this.#colors;
+    }
+
     getName() {
         return this.#name;
     }

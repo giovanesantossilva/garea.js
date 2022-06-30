@@ -18,7 +18,9 @@ export class Core {
 
     addDraw(name, config) {
         const draw = new Draw(name, this._canvas, this._context);
-        draw.setConfig(config);
+        for (const key in config) {
+            draw.setConfig(key, config[key]);
+        }
         draw.setResolution(this._resolution);
         draw.setRecreate(this.create.bind(this));
         this._draws.set(name, draw);

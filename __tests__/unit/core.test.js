@@ -35,10 +35,10 @@ describe("Core functions", () => {
 
     it('should set configuration correctly.', function () {
         const crop = new Core('crop');
-        const config = { radius: 5, stroke: 4, margin: 50 };
+        const config = { radius: 5, stroke: 4, points: 4, margin: 50 };
         crop.addDraw('area', config);
         const area = crop.getDraw('area');
-        expect(area._config).toEqual(config);
+        expect(area.config).toEqual(config);
     });
 
     it("should change default color for area, points and stroke.", () => {
@@ -47,13 +47,15 @@ describe("Core functions", () => {
         const colors = {
             area: 'rgba(255, 0, 0, 0.58)',
             points: 'rgb(255, 0, 0)',
-            stroke: 'rgb(255, 0, 0)'
+            stroke: 'rgb(255, 0, 0)',
+            background: 'rgba(0, 0, 0, .6)'
         };
         const area = crop.getDraw('area');
         area.setColor('area', colors.area);
         area.setColor('points', colors.points);
         area.setColor('stroke', colors.stroke);
-        expect(area._colors).toEqual(colors);
+        area.setColor('background', colors.background);
+        expect(area.colors).toEqual(colors);
     });
 
     it("should draw area in canvas without set points.", function () {
