@@ -1,4 +1,4 @@
-import { Draw } from "./draw.js";
+import {Draw} from "./draw.js";
 
 export class Core {
 
@@ -20,7 +20,7 @@ export class Core {
         const draw = new Draw(name, this._canvas, this._context);
         draw.setConfig(config);
         draw.setResolution(this._resolution);
-        draw._setRecreate(this.create.bind(this));
+        draw.setRecreate(this.create.bind(this));
         this._draws.set(name, draw);
         this._mount.push(draw);
     }
@@ -32,9 +32,8 @@ export class Core {
     removeDraw(name) {
         const draw = this._draws.get(name);
         this._draws.delete(name);
-        const mount = this._mount.filter(mount =>
+        this._mount = this._mount.filter(mount =>
             mount.getName() !== draw.getName());
-        this._mount = mount;
         this.create();
     }
 
@@ -44,14 +43,14 @@ export class Core {
             mount.getName() !== draw.getName());
         mount.push(draw);
         this._mount = mount;
-        draw._createListeners();
+        draw.createListeners();
         this.create();
     }
 
     create() {
         this._clear();
         this._mount.forEach(draw => {
-            draw._create();
+            draw.create();
         });
     }
 
