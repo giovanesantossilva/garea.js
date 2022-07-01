@@ -1,63 +1,68 @@
-import {Draw} from "./draw.js";
+import { Draw } from "./draw";
+import { CoreError } from "./error/coreError";
 
 export class Core {
 
-    constructor(idCanvas) {
-        if (typeof idCanvas !== 'string') {
-            throw new Error('Type invalid of identifier canvas');
-        }
-        this._canvas = document.getElementById(idCanvas);
-        this._context = this._canvas.getContext('2d');
-        this._resolution = {
-            width: this._canvas.offsetWidth,
-            height: this._canvas.offsetHeight
-        };
-        this._draws = new Map();
-        this._mount = [];
-    }
+    #canvas = null;
+    #context = null;
+    #draws = new Map();
+    #mount = [];
 
-    addDraw(name, config) {
-        const draw = new Draw(name, this._canvas, this._context);
-        for (const key in config) {
-            draw.setConfig(key, config[key]);
-        }
-        draw.setResolution(this._resolution);
-        draw.setRecreate(this.create.bind(this));
-        this._draws.set(name, draw);
-        this._mount.push(draw);
+    constructor(idCanvas) {
+        if (typeof idCanvas !== 'string')
+            throw new CoreError('Invalid of identifier canvas!');
+        this.#canvas = document.getElementById(idCanvas);
+        if (!this.#canvas)
+            throw new CoreError('Canvas is not found!');
+        this.#context = this.#canvas.getContext('2d');
     }
 
     getDraw(name) {
-        return this._draws.get(name);
+        if (this.#draws.has(name))
+            return this.#draws.get(name);
+        return null;
+    }
+
+    addDraw(name, config = {}) {
+        const draw = new Draw(name, this.#canvas, this.#context);
+        for (const key in config) {
+            if (config.hasOwnProperty(key))
+                draw.setConfig(key, config[key]);
+        }
+        draw.setRecreate(this.create.bind(this));
+        this.#draws.set(name, draw);
+        this.#mount.push(draw);
     }
 
     removeDraw(name) {
-        const draw = this._draws.get(name);
-        this._draws.delete(name);
-        this._mount = this._mount.filter(mount =>
-            mount.getName() !== draw.getName());
-        this.create();
+        if (this.#draws.has(name)) {
+            const draw = this.#draws.get(name);
+            this.#draws.delete(name);
+            this.#mount = this.#mount.filter(mount =>
+                mount.getName() !== draw.getName());
+            this.create();
+        }
     }
 
     setEdit(name) {
-        const draw = this._draws.get(name);
-        const mount = this._mount.filter(mount =>
-            mount.getName() !== draw.getName());
-        mount.push(draw);
-        this._mount = mount;
-        draw.createListeners();
-        this.create();
+        if (this.#draws.has(name)) {
+            const draw = this.#draws.get(name);
+            const mount = this.#mount.filter(mount =>
+                mount.getName() !== draw.getName());
+            mount.push(draw);
+            this.#mount = mount;
+            draw.createListeners();
+            this.create();
+        }
     }
 
     create() {
-        this._clear();
-        this._mount.forEach(draw => {
-            draw.create();
-        });
+        this.clear();
+        this.#mount.forEach(draw => draw.create());
     }
 
-    _clear() {
-        this._context.clearRect(0, 0, this._resolution.width, this._resolution.height);
+    clear() {
+        this.#context.clearRect(0, 0, this.#canvas.offsetWidth, this.#canvas.offsetHeight);
     }
 
 }

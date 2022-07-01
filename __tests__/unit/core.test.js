@@ -4,7 +4,7 @@ describe("Core functions", () => {
 
     beforeAll(function () {
         document.body.innerHTML = `
-            <canvas id="crop" style="width: 600px; height: 400px; position: absolute; z-index: 9"></canvas>
+            <canvas id="crop" width="600" height="400" style="position: absolute; z-index: 9"></canvas>
         `;
     });
 

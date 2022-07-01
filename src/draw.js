@@ -1,6 +1,6 @@
 export class Draw {
 
-    #name = 'default';
+    #name = null;
     #canvas = null;
     #context = null;
     #drags = null;
@@ -27,9 +27,11 @@ export class Draw {
         onmousedown: function () { }
     }
     #recreate = function () { }
-    #image = new Image();
 
     constructor(name, canvas, context) {
+        if (typeof name != 'string') {
+            throw new Error('[~Draw] Type invalid of identifier name!');
+        }
         this.#name = name;
         this.#canvas = canvas;
         this.#context = context;
