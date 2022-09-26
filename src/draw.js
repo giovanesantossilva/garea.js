@@ -1,3 +1,5 @@
+import { DrawError } from "./error/drawError";
+
 export class Draw {
 
     #name = null;
@@ -30,7 +32,7 @@ export class Draw {
 
     constructor(name, canvas, context) {
         if (typeof name != 'string') {
-            throw new Error('[~Draw] Type invalid of identifier name!');
+            throw new DrawError('Type invalid of identifier name!');
         }
         this.#name = name;
         this.#canvas = canvas;

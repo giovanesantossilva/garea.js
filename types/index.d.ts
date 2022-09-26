@@ -2,6 +2,7 @@ type DrawConfigType = {
     radius?: number,
     stroke?: number,
     margin?: number
+    points?: number,
 }
 
 type DrawPointsType = {
@@ -9,28 +10,29 @@ type DrawPointsType = {
     y: number
 }
 
-type DrawResolutionType ={
-    width: number,
-    height: number
-}
+type DrawResolutionAccept = 'width' | 'height';
+type DrawConfigAccept = 'radius' | 'stroke' | 'margin' | 'points';
+type DrawColorsAccept = 'points' | 'stroke' | 'area' | 'background';
+type DrawEventsAccept = 'onchange' | 'onmouseup' | 'onmousedown';
 
 declare class Draw {
     constructor(name: string, canvas: any, context: any);
     getName(): string;
-    setColor(key: string, value: string): Draw;
-    onListener(event: string, callback: Function): Draw;
-    setConfig(config: DrawConfigType): Draw;
+    setColor(key: DrawColorsAccept, value: string): Draw;
+    setConfig(key: DrawConfigAccept, value: number): Draw;
+    setResolution(key: DrawResolutionAccept, value: number): Draw;
+    onListener(event: DrawEventsAccept, callback: Function): Draw;
     getPoints(): DrawPointsType[];
     setPoints(points: DrawPointsType[]): Draw;
-    setResolution(resolution: DrawPointsType): Draw;
     reset(): void;
 }
 
 export class Core {
     constructor(idCanvas: string);
+    getDraw(name: string): Draw | null;
     addDraw(name: string, config: DrawConfigType): void;
     removeDraw(name: string): void;
-    getDraw(name: string): Draw;
     setEdit(name: string): void;
     create(): void;
+    clear(): void;
 }

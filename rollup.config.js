@@ -26,16 +26,18 @@ module.exports = {
         }
     ],
     plugins: [
-        resolve({
-            jsnext: true,
-            main: true,
-            browser: true,
-        }),
+        resolve(),
         babel({
             babelHelpers: 'bundled',
-            exclude: ["node_modules/**"],
         }),
         commonjs(),
-        terser()
+        terser({
+            compress: {
+                drop_console: true,
+            },
+            output: {
+                comments: false
+            }
+        })
     ]
 }

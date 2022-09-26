@@ -1,4 +1,6 @@
 import { Core } from "../../src/core";
+import { CoreError } from "../../src/error/coreError";
+import { DrawError } from "../../src/error/drawError";
 
 describe("Core functions", () => {
 
@@ -12,10 +14,19 @@ describe("Core functions", () => {
         expect(new Core('crop')).toBeDefined();
     });
 
+    it("should core not class instanced.", function () {
+        expect(() => new Core(1)).toThrow(CoreError);
+    });
+
     it("should add new Draw to instanced.", function () {
         const crop = new Core('crop');
         crop.addDraw('area', {});
         expect(crop.getDraw('area')).toBeDefined();
+    });
+
+    it("should add new Draw not instanced.", function () {
+        const crop = new Core('crop');
+        expect(() => crop.addDraw(1, {})).toThrow(DrawError);
     });
 
     it("should add two Draws and to instanced.", function () {

@@ -21,6 +21,7 @@ window.onload = () => {
     }).onListener('onmouseup', event => {
         console.log('onmouseup', event);
     });
-    crop.setEdit('area1');
+    crop.setEdit('area');
+    crop.removeDraw('area1');
     crop.create();
 }

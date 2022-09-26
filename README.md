@@ -7,6 +7,8 @@
 ![Dependencies](https://img.shields.io/david/giovanesantossilva/garea.js) 
 ![Licence](https://img.shields.io/github/license/giovanesantossilva/garea.js)
 
+<img src="./preview.png" width="500" height="auto">
+
 ## Table of contents
 
 - [Main](#main)
@@ -18,6 +20,7 @@
 
 ## Main
 
+---
 ```text
 dist/
 ├── garea.min.js    (UMD)
@@ -26,6 +29,8 @@ dist/
 ```
 
 ## Getting started
+
+---
 
 ### Installation
  
@@ -48,7 +53,7 @@ In browser:
 #### Syntax
 
 ```js
-new Core(idCanvas [, config]);
+new Core(idCanvas);
 ```
 
 #### Example
@@ -76,19 +81,21 @@ new Core(idCanvas [, config]);
 
 With js example:
 ```js
-import { Core } from 'garea.js';
+import { Core as Manager } from 'garea.js';
 
-const crop = new Core('crop');
-crop.addDraw('area');
-const area = crop.getDraw('area');
+const manager = new Manager('crop');
+manager.addDraw('area');
+const area = manager.getDraw('area');
 area.onListener('onchange', points => {
     console.log(points);
 });
-crop.setEdit('area');
-crop.create();
+manager.setEdit('area');
+manager.create();
 ```
 
 ## Options
+
+---
 
 You may set garea options with `crop.addDraw(name, config)`.
 If you want to change the global default options, You may use `draw.config = config`.
@@ -124,9 +131,13 @@ Description: `Starting margin of points if not entered.`
 
 Description: `Size of the connecting line between the points.`
 
+## Methods
+
+---
+
 ## Methods for core
 
-### addDraw(name, config)
+### addDraw(name, config): void
 
 Add a new draw
 
@@ -140,7 +151,7 @@ const crop = new Core('crop');
 crop.addDraw('area', {});
 ````
 
-### getDraw(name)
+### getDraw(name): Draw
 
 Get draw by name.
 
@@ -153,7 +164,7 @@ crop.addDraw('area', {});
 const area = crop.getDraw('area');
 ````
 
-### removeDraw(name)
+### removeDraw(name): void
 
 Remove draw by name.
 
@@ -166,7 +177,7 @@ crop.addDraw('area', {});
 crop.removeDraw('area');
 ````
 
-### setEdit(name)
+### setEdit(name): void
 
 Set area for edit layer
 
@@ -181,16 +192,16 @@ crop.setEdit('area');
 
 ## Methods for draw
 
-### getName()
+### getName(): string
 
 Return name for area.
 
 ````js
 const area = crop.getDraw('area');
-area.getName(); // return area
+area.getName(); // return 'area'
 ````
 
-### setColor(key, value)
+### setColor(key, value): Draw
 
 Change color
 
@@ -200,34 +211,36 @@ Change color
         - `'area'`
         - `'points'`
         - `'stroke'`
+        - `'background'`
     
 - **value**
     - Type: `String`
 
 ````js
 const area = crop.getDraw('area');
-area.getName(); // return area
+area.setColor('area', 'rgba(47, 175, 255, .5)');
 ````
 
-### setConfig(config)
+### setConfig(key, value): Draw
 
 Set config for area.
 
-- **config**
+- **key**
     - Type: `Object`
-  - Options:
-    - `'radius'`
-    - `'margin'`
-    - `'stroke'`
+    - Options:
+        - `'radius'`
+        - `'margin'`
+        - `'stroke'`
     
+- **value**
+  - Type: `Number`
+
 ````js
 const area = crop.getDraw('area');
-area.setConfig({
-    radius: 6
-});
+area.setConfig('radius', 6);
 ````
 
-### getPoints()
+### getPoints(): Array
 
 Return points for area.
 
@@ -236,7 +249,7 @@ const area = crop.getDraw('area');
 area.getPoints(); // return [{ x, y }]
 ````
 
-### setPoints(points)
+### setPoints(points): Draw
 
 Set points for area;
 
@@ -248,19 +261,9 @@ const area = crop.getDraw('area');
 area.setPoints([{ x, y }]);
 ````
 
-### setConfig(config)
-
-Configurations of area
-
-- **config**
-    - Type: `Object`
-
-````js
-const area = crop.getDraw('area');
-area.setResolution({ width: 200, height: 400 });
-````
-
 ## Events
+
+---
 
 ### onListener(event, callback)
 
@@ -279,5 +282,7 @@ area.onListener('onchange', () => {});
       - `'onmouseup'`: when you release the clicked point
       
 ## License
+
+---
 
 [MIT](https://opensource.org/licenses/MIT) © [Giovane Santos](https://giovanesantossilva.github.io/)
