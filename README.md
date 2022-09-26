@@ -3,8 +3,8 @@
 > A simple selection of area in JavaScript
 
 ![Version](https://img.shields.io/github/package-json/v/giovanesantossilva/garea.js)
-![Project Size](https://img.shields.io/github/size/giovanesantossilva/garea.js/dist/garea.min.js) 
-![Dependencies](https://img.shields.io/david/giovanesantossilva/garea.js) 
+![Project Size](https://img.shields.io/bundlephobia/min/garea.js@latest) 
+![Dependencies](https://img.shields.io/github/languages/top/giovanesantossilva/garea.js) 
 ![Licence](https://img.shields.io/github/license/giovanesantossilva/garea.js)
 
 <img src="./preview.png" width="500" height="auto">
