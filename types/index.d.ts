@@ -3,6 +3,7 @@ type DrawConfigType = {
     stroke?: number,
     margin?: number
     points?: number,
+    type?: DrawConfigTypeAccept
 }
 
 type DrawPointsType = {
@@ -10,6 +11,7 @@ type DrawPointsType = {
     y: number
 }
 
+type DrawConfigTypeAccept = 'line' | 'area';
 type DrawResolutionAccept = 'width' | 'height';
 type DrawConfigAccept = 'radius' | 'stroke' | 'margin' | 'points';
 type DrawColorsAccept = 'points' | 'stroke' | 'area' | 'background';

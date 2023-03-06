@@ -16,6 +16,7 @@
 - [Options](#options)
 - [Methods](#methods)
 - [Events](#events)
+- [Development](#developement)
 - [License](#license)
 
 ## Main
@@ -106,7 +107,8 @@ const crop = new Core('crop');
 crop.addDraw('area', {
     radius: 6,
     margin: 20,
-    stroke: 5
+    stroke: 5,
+    type: 'area'
 });
 ```
 
@@ -130,6 +132,14 @@ Description: `Starting margin of points if not entered.`
 - Default: `30`
 
 Description: `Size of the connecting line between the points.`
+
+### type
+
+- Type: `String`
+- Default: `area`
+- Options: 
+  - 'area'
+  - 'line'
 
 ## Methods
 
@@ -281,6 +291,11 @@ area.onListener('onchange', () => {});
       - `'onmousedown'`: when you click on one of the points
       - `'onmouseup'`: when you release the clicked point
       
+
+## Development
+
+
+
 ## License
 
 ---
