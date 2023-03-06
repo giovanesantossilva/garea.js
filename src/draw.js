@@ -11,7 +11,8 @@ export class Draw {
         radius: 5,
         margin: 30,
         points: 4,
-        stroke: 2
+        stroke: 2,
+        type: 'area'
     }
     #colors = {
         points: 'rgb(47, 177, 255)',
@@ -96,6 +97,12 @@ export class Draw {
     }
 
     setPoints(points) {
+        if (this.#config.type === 'line' && points.length > 2) {
+            throw new DrawError('Line type must have only two points');
+        }
+        if (this.#config.type === 'area' && points.length < 3) {
+            throw new DrawError('Area type must have three points or more');
+        }
         this.#drags = {};
         this.#points = {};
         points.forEach((point, index) => {
@@ -107,16 +114,24 @@ export class Draw {
 
     #validatePoints() {
         if(this.#points) return;
-        this.setPoints([
-            { x: this.#config.margin, y: this.#config.margin },
-            { x: (this.#resolution.width - this.#config.margin) / 2, y: this.#config.margin },
-            { x: this.#resolution.width - this.#config.margin, y: this.#config.margin },
-            { x: this.#resolution.width - this.#config.margin, y: (this.#resolution.height - this.#config.margin) / 2 },
-            { x: this.#resolution.width - this.#config.margin, y: this.#resolution.height - this.#config.margin },
-            { x: (this.#resolution.width - this.#config.margin) / 2, y: this.#resolution.height - this.#config.margin },
-            { x: this.#config.margin, y: this.#resolution.height - this.#config.margin },
-            { x: this.#config.margin, y: (this.#resolution.height - this.#config.margin) / 2 }
-        ]);
+        if (this.#config.type === 'line') {
+            this.setPoints([
+                { x: this.#resolution.width * .25, y: this.#resolution.height / 2 },
+                { x: this.#resolution.width * .75, y: this.#resolution.height / 2 }
+            ]);
+        }
+        if (this.#config.type === 'area') {
+            this.setPoints([
+                { x: this.#config.margin, y: this.#config.margin },
+                { x: (this.#resolution.width - this.#config.margin) / 2, y: this.#config.margin },
+                { x: this.#resolution.width - this.#config.margin, y: this.#config.margin },
+                { x: this.#resolution.width - this.#config.margin, y: (this.#resolution.height - this.#config.margin) / 2 },
+                { x: this.#resolution.width - this.#config.margin, y: this.#resolution.height - this.#config.margin },
+                { x: (this.#resolution.width - this.#config.margin) / 2, y: this.#resolution.height - this.#config.margin },
+                { x: this.#config.margin, y: this.#resolution.height - this.#config.margin },
+                { x: this.#config.margin, y: (this.#resolution.height - this.#config.margin) / 2 }
+            ]);
+        }
     }
 
     reset() {
