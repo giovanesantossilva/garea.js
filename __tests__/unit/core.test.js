@@ -46,7 +46,7 @@ describe("Core functions", () => {
 
     it('should set configuration correctly.', function () {
         const crop = new Core('crop');
-        const config = { radius: 5, stroke: 4, points: 4, margin: 50 };
+        const config = { radius: 5, stroke: 4, points: 4, margin: 50, type: 'area' };
         crop.addDraw('area', config);
         const area = crop.getDraw('area');
         expect(area.config).toEqual(config);
