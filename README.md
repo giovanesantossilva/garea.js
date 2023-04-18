@@ -250,6 +250,27 @@ const area = crop.getDraw('area');
 area.setConfig('radius', 6);
 ````
 
+### setDisable(state): Draw
+
+Set disable draggable area.
+
+- **state**
+    - Type: `Boolean`
+
+```js
+const area = crop.getDraw('area');
+area.setDisable(true);
+```
+
+### isDisabled(): boolean
+
+Return state draggable of area.
+
+```js
+const area = crop.getDraw('area');
+area.isDisable(); // default false
+```
+
 ### getPoints(): Array
 
 Return points for area.
@@ -263,7 +284,7 @@ area.getPoints(); // return [{ x, y }]
 
 Set points for area;
 
-- **config**
+- **points**
     - Type: `Array`
 
 ````js

@@ -113,4 +113,12 @@ describe("Core functions", () => {
         expect(points).toEqual(area.getPoints());
     });
 
+    it('should set disable draggable area', function () {
+        const crop = new Core('crop');
+        crop.addDraw('area', {});
+        const area = crop.getDraw('area');
+        area.setDisable(true);
+        expect(area.isDisable()).toEqual(true);
+    });
+
 });

@@ -7,6 +7,7 @@ export class Draw {
     #context = null;
     #drags = null;
     #points = null;
+    #disable = false;
     #config = {
         radius: 5,
         margin: 30,
@@ -83,6 +84,18 @@ export class Draw {
             this.#resolution[key] = value;
         }
         return this;
+    }
+
+    setDisable(state) {
+        if (typeof state !== 'boolean') {
+            throw new DrawError('Type invalid of state!');
+        }
+        this.#disable = state;
+        return this;
+    }
+
+    isDisable() {
+        return this.#disable;
     }
 
     onListener(event, callback) {
@@ -243,6 +256,7 @@ export class Draw {
     }
 
     #onMouseMove(event) {
+        if (this.#disable) return;
         if(
             event.offsetX > this.#config.radius && event.offsetX <= (this.#resolution.width - this.#config.radius) &&
             event.offsetY > this.#config.radius && event.offsetY <= (this.#resolution.height - this.#config.radius)
