@@ -22,6 +22,8 @@ declare class Draw {
     getName(): string;
     setColor(key: DrawColorsAccept, value: string): Draw;
     setConfig(key: DrawConfigAccept, value: number): Draw;
+    setDisable(state: boolean): Draw;
+    isDisable(): boolean;
     setResolution(key: DrawResolutionAccept, value: number): Draw;
     onListener(event: DrawEventsAccept, callback: Function): Draw;
     getPoints(): DrawPointsType[];
